@@ -1,31 +1,41 @@
 
-class VagonDeCarga{
-	var property anchoUtil
-	var property largo
-	var property cargaMaxima
+class Tren {
+	var property vagones
 	
-	method pesoMaximo(){return cargaMaxima+160}
-}
-class VagonDePasajeros{
-	var property anchoUtil
-	var property largo
+	var property locomotoras
 	
-	method capacidadPasajeros() {
-		return if (anchoUtil <= 2.5) largo * 8 else largo * 10
+	method cantidadVagonesLivianos(){
+		return vagones.count{vagon => vagon.esLiviano()}
 	}
 	
-	method pesoMaximo() {return self.capacidadPasajeros()*80}
-}
-
-class Locomotora{
-	var property peso
-	var property arrastreMaximo
-	var arrastreUtil= arrastreMaximo - peso
-	var property velocidadMaxima
-}
-
-class Tren {
-	var property cantidadVagones
-	var property cantidadLocomotoras
+	method velocidadMaxima(){
+		return locomotoras.min{locomotora=> locomotora.velocidadMaxima()}.velocidadMaxima()
+	}
+	
+	method esEficiente(){
+		return locomotoras.all{locomotora => locomotora.arrastreUtil() >= locomotora.peso()*5}
+	}
+	
+	method puedeMoverse(){
+		return self.arrastreUtilTotal() >= self.pesoTotalVagones()
+	}
+	
+	method arrastreUtilTotal(){
+		return  locomotoras.sum{ locomotora => locomotora.arrastreUtil() }
+		
+	}
+	
+	method pesoTotalVagones(){
+		return vagones.sum{vagon => vagon.pesoMaximo()}
+	}
+	
+	method kilosDeArrastreFaltantes(){
+		return if(self.puedeMoverse()){ 0 } 
+				else {self.pesoTotalVagones()-self.arrastreUtilTotal()}
+	}
+	
+	method vagonMasPesado(){
+		return vagones.max{vagon=> vagon.pesoMaximo()}
+	}
 	
 }

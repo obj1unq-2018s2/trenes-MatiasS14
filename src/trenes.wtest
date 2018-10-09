@@ -1,0 +1,66 @@
+import trenes.*
+import vagones.*
+import locomotora.*
+describe "Tests de trenes"{
+	var tren= new Tren()
+		//vagones
+	var vagon1= new VagonDePasajeros()
+	var vagon2= new VagonDePasajeros()
+	var vagon3= new VagonDePasajeros()
+	var vagon4= new VagonDePasajeros()
+	var vagones= #{vagon1,vagon2,vagon3,vagon4} 
+		//locomotoras
+	var locomotora1= new Locomotora()
+	var locomotora2= new Locomotora()
+	var locomotoras1= #{locomotora1,locomotora2}
+	fixture{
+		//vagones
+		vagon1.anchoUtil(5)
+		vagon1.largo(10)
+		vagon2.anchoUtil(5)
+		vagon2.largo(10)
+		vagon3.anchoUtil(2)
+		vagon3.largo(3)
+		vagon4.anchoUtil(2)
+		vagon4.largo(3)
+		//locomotoras
+		locomotora1.velocidadMaxima(50)
+		locomotora1.peso(10000)
+//		locomotora1.peso(100000) //valor para que la formacion no sea eficiente
+		locomotora1.arrastreMaximo(100000)
+		locomotora2.velocidadMaxima(80)
+		locomotora2.peso(10000)
+//		locomotora2.peso(100000) //valor para que la formacion no sea eficiente
+		locomotora2.arrastreMaximo(100000)
+		//asignacion de locomotoras al tren
+		tren.locomotoras(locomotoras1) 
+		//asignacion de vagones al tren
+		tren.vagones(vagones)
+		
+	}
+	
+  test "vagones livianos" {
+	
+	assert.equals(2,tren.cantidadVagonesLivianos())
+
+  }
+  
+  test "velocidad maxima de la formacion"{
+  	
+  	assert.equals( 50, tren.velocidadMaxima() )
+  }
+  
+  test "formacion es eficiente"{
+  	assert.equals(true,tren.esEficiente())
+//  	assert.equals(false,tren.esEficiente())//assert en el que comprueba que no es eficiente 
+  }
+  
+  test "formacion puede moverse"{
+  	assert.equals(true,tren.puedeMoverse())
+  }
+  
+  test "arrastre faltante"{
+  	assert.equals(0, tren.kilosDeArrastreFaltantes())
+  }
+
+}
