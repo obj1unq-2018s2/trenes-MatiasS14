@@ -1,24 +1,42 @@
 import trenes.*
 import vagones.*
 import locomotora.*
+import deposito.*
 describe "Tests de trenes"{
+	var depo=new Deposito()
 	var tren= new Tren()
+	var tren2= new Tren()
+	
 		//vagones
 	var vagon1= new VagonDePasajeros()
 	var vagon2= new VagonDePasajeros()
 	var vagon3= new VagonDePasajeros()
 	var vagon4= new VagonDePasajeros()
 	var vagones= #{vagon1,vagon2,vagon3,vagon4} 
+	
+	//vagones tren2
+	var vagon5= new VagonDePasajeros()
+	var vagon6= new VagonDePasajeros()
+	var vagon7= new VagonDePasajeros()
+	var vagon8= new VagonDePasajeros()
+	var vagones2= #{vagon5,vagon6,vagon7,vagon8} 
+	
 		//locomotoras
 	var locomotora1= new Locomotora()
 	var locomotora2= new Locomotora()
-	var locomotoras1= #{locomotora1,locomotora2}
+	var locomotoras= #{locomotora1,locomotora2}
+	
+		//locomotoras tren2
+	var locomotora4=  new Locomotora()
+	var locomotora3= new Locomotora()
+	var locomotoras2=#{locomotora3,locomotora4}
+	
 	fixture{
 		//vagones
 		vagon1.anchoUtil(5)
 		vagon1.largo(10)
 		vagon2.anchoUtil(5)
-		vagon2.largo(10)
+		vagon2.largo(11)
 		vagon3.anchoUtil(2)
 		vagon3.largo(3)
 		vagon4.anchoUtil(2)
@@ -33,10 +51,38 @@ describe "Tests de trenes"{
 //		locomotora2.peso(100000) //valor para que la formacion no sea eficiente
 		locomotora2.arrastreMaximo(100000)
 		//asignacion de locomotoras al tren
-		tren.locomotoras(locomotoras1) 
+		tren.locomotoras(locomotoras) 
 		//asignacion de vagones al tren
 		tren.vagones(vagones)
 		
+		//TREN 2
+		
+		//vagones
+		vagon5.anchoUtil(5)
+		vagon5.largo(10)
+		vagon6.anchoUtil(5)
+		vagon6.largo(11)
+		vagon7.anchoUtil(2)
+		vagon7.largo(3)
+		vagon8.anchoUtil(2)
+		vagon8.largo(3)
+		
+		//locomotoras
+		locomotora3.velocidadMaxima(50)
+		locomotora3.peso(100000) 
+		locomotora3.arrastreMaximo(100000)
+		locomotora4.velocidadMaxima(80)
+		locomotora4.peso(100000) 
+		locomotora4.arrastreMaximo(100000)
+		
+		//asignacion de locomotoras al tren2
+		tren2.locomotoras(locomotoras2)
+		 
+		//asignacion de vagones al tren2
+		tren2.vagones(vagones2)
+
+		//deposito
+		depo.formaciones(#{tren,tren2})
 	}
 	
   test "vagones livianos" {
@@ -62,5 +108,16 @@ describe "Tests de trenes"{
   test "arrastre faltante"{
   	assert.equals(0, tren.kilosDeArrastreFaltantes())
   }
+  
+  test "vagones mas pesados"{
+  	assert.that( #{vagon2,vagon6} == depo.vagonesMasPesados() )
+  }
+  
+  test "agregar locomotora a formacion de deposito"{
+  	assert.equals(false,depo.formacionesPuedenMoverse())
+  	depo.agregarLocomotoraAFormacion(tren2)
+  	assert.equals(true,depo.formacionesPuedenMoverse())
+  }
 
+ 
 }

@@ -6,9 +6,9 @@ class Locomotora{
 
 	var velocidadMaxima= 0
 	
-	method velocidadMaxima(){return velocidadMaxima }
+	method velocidadMaxima() { return velocidadMaxima }
 	
-	method velocidadMaxima(velocidad){velocidadMaxima= velocidad}
+	method velocidadMaxima(velocidad) { velocidadMaxima= velocidad }
 	
-	method arrastreUtil(){return arrastreMaximo - peso	}
+	method arrastreUtil() { return arrastreMaximo - peso	}
 }

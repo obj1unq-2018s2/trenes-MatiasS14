@@ -38,4 +38,21 @@ class Tren {
 		return vagones.max{vagon=> vagon.pesoMaximo()}
 	}
 	
+	method pesoTotalFormacion(){
+		return self.pesoTotalVagones() + self.pesoTotalLocomotoras()
+	}
+	
+	method pesoTotalLocomotoras(){
+		return locomotoras.sum{locomotora => locomotora.peso()}
+	}
+	
+	method esCompleja(){
+		return self.pesoTotalFormacion() > 10000 or vagones.size() + locomotoras.size() > 20
+	}
+	
+	method agregarLocomotora(locomotora){
+		locomotoras.add(locomotora)
+	}
+
+	
 }
